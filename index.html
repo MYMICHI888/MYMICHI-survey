@@ -98,21 +98,28 @@
   .prize .txt p{font-size:14px;color:#7c4a5e;font-weight:300}
 
   /* ---------- HOW IT WORKS ---------- */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 0 8px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:30px 0 8px}
   .step{
-    background:var(--white);border:1px solid var(--line);border-radius:18px;
-    padding:20px 16px;text-align:center;
+    background:transparent;border:none;box-shadow:none;
+    padding:6px 14px;text-align:center;
   }
   .step .ico{
-    width:54px;height:54px;margin:0 auto 6px;border-radius:50%;
+    position:relative;
+    width:56px;height:56px;margin:0 auto 14px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
     background:linear-gradient(135deg,var(--sakura-100),var(--sakura-200));
     box-shadow:inset 0 0 0 1px var(--sakura-200);
   }
+  .step .ico .no{
+    position:absolute;top:-6px;right:-6px;width:25px;height:25px;border-radius:50%;
+    background:linear-gradient(135deg,var(--sakura-400),var(--rose-600));color:#fff;
+    font-family:"Noto Serif TC",serif;font-weight:700;font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--white);box-shadow:0 4px 10px -4px rgba(201,87,125,.55)}
   .step .ico svg{width:27px;height:27px;fill:none;stroke:var(--rose-600);
     stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .step .ico svg .sakura{fill:var(--sakura-400);stroke:none}
-  .step b{display:block;font-size:14px;margin:8px 0 3px;color:var(--ink)}
+  .step b{display:block;font-size:14.5px;margin:0 0 4px;color:var(--ink)}
   .step span{font-size:12.5px;color:var(--ink-soft);font-weight:300;line-height:1.55}
 
   /* ---------- FORM CARD ---------- */
@@ -245,29 +252,28 @@
     <div class="num"><b>3</b><span>每月精選</span></div>
     <div class="txt">
       <h3>每月 15 號選出 3 位小小明星 🌸</h3>
-      <p>精選 3 張最可愛、最有趣、最溫馨的照片，刊登於 MYMICHI 的 Facebook、Instagram 與官方網站，成為當月小明星，並有機會獲得 <b style="color:var(--rose-700)">購物金回饋 $150</b>！</p>
+      <p>精選 3 張最可愛、最有趣、最溫馨的照片，刊登於 MYMICHI 的 Facebook、Instagram 與官方網站，成為當月小明星，並有機會獲得 <b style="color:var(--rose-700)">購物金回饋 $200</b>！</p>
     </div>
   </div>
 
   <div class="steps">
     <div class="step">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 8.7A1.7 1.7 0 0 1 4.7 7H7l1.1-1.7a1 1 0 0 1 .84-.45h6.12a1 1 0 0 1 .84.45L17 7h2.3A1.7 1.7 0 0 1 21 8.7v8.6A1.7 1.7 0 0 1 19.3 19H4.7A1.7 1.7 0 0 1 3 17.3z"/><circle cx="12" cy="13" r="3.1"/></svg></div>
+      <div class="ico"><span class="no">1</span><svg viewBox="0 0 24 24"><path d="M3 8.7A1.7 1.7 0 0 1 4.7 7H7l1.1-1.7a1 1 0 0 1 .84-.45h6.12a1 1 0 0 1 .84.45L17 7h2.3A1.7 1.7 0 0 1 21 8.7v8.6A1.7 1.7 0 0 1 19.3 19H4.7A1.7 1.7 0 0 1 3 17.3z"/><circle cx="12" cy="13" r="3.1"/></svg></div>
       <b>拍下日常</b><span>寶貝使用 MYMICHI 的可愛瞬間</span>
     </div>
     <div class="step">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M4.5 19.5h4l9.3-9.3a2.3 2.3 0 0 0-3.25-3.25L5.25 16.25 4.5 19.5z"/><path d="M13.4 7.6l3.25 3.25"/></svg></div>
+      <div class="ico"><span class="no">2</span><svg viewBox="0 0 24 24"><path d="M4.5 19.5h4l9.3-9.3a2.3 2.3 0 0 0-3.25-3.25L5.25 16.25 4.5 19.5z"/><path d="M13.4 7.6l3.25 3.25"/></svg></div>
       <b>填寫分享</b><span>留下心得與基本聯絡資訊</span>
     </div>
     <div class="step">
-      <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="10.5" rx="1.3"/><path d="M3.2 9h17.6M12 9v10.5"/><path d="M12 9S10.6 4.7 8.2 5.4C6.4 6 6.7 8.6 9 9M12 9s1.4-4.3 3.8-3.6C17.6 6 17.3 8.6 15 9"/></svg></div>
-      <b>登上小明星</b><span>每月 15 號公布 3 位，<br>並有機會獲得購物金回饋 $150！</span>
+      <div class="ico"><span class="no">3</span><svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="10.5" rx="1.3"/><path d="M3.2 9h17.6M12 9v10.5"/><path d="M12 9S10.6 4.7 8.2 5.4C6.4 6 6.7 8.6 9 9M12 9s1.4-4.3 3.8-3.6C17.6 6 17.3 8.6 15 9"/></svg></div>
+      <b>登上小明星</b><span>每月 15 號公布 3 位，<br>並有機會獲得購物金回饋 $200！</span>
     </div>
   </div>
 
   <!-- =================== FORM =================== -->
-  <!-- ⚠️ 設定方式：到 https://formspree.io 註冊，建立表單並把收件信箱設為
-       michi.with.tlc@gmail.com，再把下方 action 的 YOUR_FORM_ID 換成 Formspree
-       給你的端點（例如 https://formspree.io/f/abcdwxyz）。送出結果就會寄到該信箱。 -->
+  <!-- ✅ 已設定 Formspree 端點，送出結果會寄到 michi.with.tlc@gmail.com。
+       照片直接上傳需 Formspree 付費方案（Personal 以上）才會收到附件。 -->
   <form class="card" id="surveyForm"
         action="https://formspree.io/f/xkolwblq"
         method="POST" enctype="multipart/form-data">
@@ -463,9 +469,18 @@
     if(channel.value !== '其他') channelOther.value = '';
   });
 
-  // drag styling
-  ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
-  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
+  // drag & drop 上傳
+  ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();e.stopPropagation();drop.classList.add('drag')}));
+  drop.addEventListener('dragleave',e=>{e.preventDefault();e.stopPropagation();drop.classList.remove('drag')});
+  drop.addEventListener('drop',e=>{
+    e.preventDefault();e.stopPropagation();drop.classList.remove('drag');
+    const dropped = Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
+    if(!dropped.length){ alert('請拖曳圖片檔（JPG / PNG）。'); return; }
+    const dt = new DataTransfer();
+    dropped.slice(0,5).forEach(f=>dt.items.add(f));
+    input.files = dt.files;
+    renderPreview();
+  });
 
   // ---- AJAX submit to Formspree (keeps user on page, shows thank-you) ----
   const form = document.getElementById('surveyForm');
@@ -486,11 +501,14 @@
         document.getElementById('thanks').style.display='block';
         document.getElementById('thanks').scrollIntoView({behavior:'smooth'});
       }else{
-        throw new Error('submit failed');
+        const data = await res.json().catch(()=>({}));
+        const detail = (data.errors && data.errors.map(x=>x.message).join('；')) || ('狀態碼 ' + res.status);
+        alert('送出失敗：' + detail + '\n\n※ 若訊息與檔案／附件有關，多半是收件服務方案不支援照片上傳，可改用「貼照片連結」方式或升級方案。');
+        btn.disabled=false; btn.textContent='送出寶貝的可愛照片 🌸';
       }
     }catch(err){
       alert('送出時發生問題，請稍後再試一次，或來信與我們聯繫。');
-      btn.disabled=false; btn.textContent='送出我的櫻花分享 🌸';
+      btn.disabled=false; btn.textContent='送出寶貝的可愛照片 🌸';
     }
   });
 </script>
