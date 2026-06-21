@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYMICHI 小小明星登場 ｜ 每月攝影募集活動</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sakura-50:#FFF7FA;
+    --sakura-100:#FDEEF3;
+    --sakura-200:#F9D7E2;
+    --sakura-300:#F3B9CC;
+    --sakura-400:#EB97B3;
+    --sakura-500:#DE7396;
+    --rose-600:#C9577D;
+    --rose-700:#A8466A;
+    --leaf:#9BC4A8;
+    --ink:#4B3A40;
+    --ink-soft:#7A6A70;
+    --line:#F0DCE4;
+    --white:#FFFFFF;
+    --shadow:0 18px 50px -20px rgba(176,80,116,.35);
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans TC",-apple-system,system-ui,sans-serif;
+    color:var(--ink);
+    line-height:1.7;
+    background:
+      radial-gradient(1200px 500px at 12% -8%, var(--sakura-200) 0%, transparent 55%),
+      radial-gradient(1000px 480px at 100% 0%, var(--sakura-100) 0%, transparent 50%),
+      var(--sakura-50);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:0 18px 80px;
+  }
+  /* floating sakura petals */
+  .petal{position:fixed;top:-40px;font-size:18px;opacity:.55;pointer-events:none;animation:fall linear infinite;z-index:0;user-select:none}
+  @keyframes fall{
+    0%{transform:translateY(-40px) rotate(0deg);opacity:0}
+    10%{opacity:.6}
+    100%{transform:translateY(105vh) rotate(380deg);opacity:.1}
+  }
+  .wrap{max-width:760px;margin:0 auto;position:relative;z-index:1}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    text-align:center;
+    padding:54px 22px 40px;
+  }
+  .brand{
+    font-weight:900;letter-spacing:.42em;font-size:15px;
+    color:var(--rose-600);margin-bottom:22px;padding-left:.42em;
+  }
+  .hero-badge{
+    display:inline-block;background:var(--white);color:var(--rose-600);
+    border:1px solid var(--sakura-200);border-radius:999px;
+    padding:7px 18px;font-size:13px;font-weight:500;letter-spacing:.08em;
+    box-shadow:0 6px 18px -10px rgba(176,80,116,.4);margin-bottom:22px;
+  }
+  .hero h1{
+    font-family:"Noto Serif TC",serif;font-weight:700;
+    font-size:clamp(28px,5.4vw,40px);line-height:1.32;color:var(--ink);
+    margin-bottom:16px;letter-spacing:.02em;
+  }
+  .hero h1 .accent{color:var(--rose-600);white-space:nowrap}
+  .title-cam{display:inline-block;width:1.05em;height:1.05em;vertical-align:-0.16em;margin-right:.14em}
+  .title-cam svg{width:100%;height:100%;fill:none;stroke:var(--rose-600);
+    stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .title-cam .fill{fill:var(--sakura-400);stroke:none}
+  .hero p.lead{
+    font-size:16px;color:var(--ink-soft);max-width:540px;margin:0 auto;font-weight:300;
+  }
+  /* 避免關鍵詞在中間斷行 */
+  .nb{white-space:nowrap}
+  .divider{
+    width:64px;height:2px;margin:30px auto 0;border-radius:2px;
+    background:linear-gradient(90deg,transparent,var(--sakura-400),transparent);
+  }
+
+  /* ---------- PRIZE STRIP ---------- */
+  .prize{
+    background:linear-gradient(135deg,var(--sakura-300),var(--sakura-200));
+    border-radius:var(--radius);padding:28px 26px;margin:34px 0 8px;
+    display:flex;gap:22px;align-items:center;box-shadow:var(--shadow);
+  }
+  .prize .num{
+    flex:0 0 auto;width:92px;height:92px;border-radius:50%;background:var(--white);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    box-shadow:0 10px 24px -12px rgba(176,80,116,.5);
+  }
+  .prize .num b{font-family:"Noto Serif TC",serif;font-size:38px;color:var(--rose-600);line-height:1}
+  .prize .num span{font-size:11px;color:var(--ink-soft);letter-spacing:.1em;margin-top:2px}
+  .prize .txt h3{font-size:18px;font-weight:700;color:var(--rose-700);margin-bottom:4px}
+  .prize .txt p{font-size:14px;color:#7c4a5e;font-weight:300}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 0 8px}
+  .step{
+    background:var(--white);border:1px solid var(--line);border-radius:18px;
+    padding:20px 16px;text-align:center;
+  }
+  .step .ico{
+    width:54px;height:54px;margin:0 auto 6px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,var(--sakura-100),var(--sakura-200));
+    box-shadow:inset 0 0 0 1px var(--sakura-200);
+  }
+  .step .ico svg{width:27px;height:27px;fill:none;stroke:var(--rose-600);
+    stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .step .ico svg .sakura{fill:var(--sakura-400);stroke:none}
+  .step b{display:block;font-size:14px;margin:8px 0 3px;color:var(--ink)}
+  .step span{font-size:12.5px;color:var(--ink-soft);font-weight:300;line-height:1.55}
+
+  /* ---------- FORM CARD ---------- */
+  form.card{
+    background:var(--white);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:8px 0 0;margin-top:30px;overflow:hidden;
+    border:1px solid var(--sakura-100);
+  }
+  .card-top{
+    background:linear-gradient(135deg,var(--sakura-100),var(--white));
+    padding:26px 30px 22px;border-bottom:1px solid var(--line);
+  }
+  .card-top h2{font-family:"Noto Serif TC",serif;font-size:21px;color:var(--ink);font-weight:700}
+  .card-top p{font-size:13.5px;color:var(--ink-soft);margin-top:4px;font-weight:300}
+
+  fieldset{border:none;padding:26px 30px 6px}
+  fieldset+fieldset{border-top:1px solid var(--line)}
+  legend{
+    font-size:13px;font-weight:700;color:var(--rose-600);letter-spacing:.14em;
+    text-transform:uppercase;padding:0;margin-bottom:4px;display:flex;align-items:center;gap:8px;
+  }
+  legend::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sakura-400)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
+  .field{margin-top:18px}
+  .field.full{grid-column:1 / -1}
+  label{display:block;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:7px}
+  label .req{color:var(--rose-600);margin-left:3px}
+  label .opt{color:var(--ink-soft);font-size:12px;font-weight:300;margin-left:6px}
+
+  input[type=text],input[type=tel],input[type=email],input[type=number],select,textarea{
+    width:100%;font-family:inherit;font-size:15px;color:var(--ink);
+    background:var(--sakura-50);border:1.5px solid var(--line);border-radius:13px;
+    padding:13px 15px;transition:.18s;
+  }
+  textarea{resize:vertical;min-height:120px;line-height:1.65}
+  input::placeholder,textarea::placeholder{color:#bda9b1}
+  input:focus,select:focus,textarea:focus{
+    outline:none;border-color:var(--sakura-400);background:var(--white);
+    box-shadow:0 0 0 4px rgba(235,151,179,.18);
+  }
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23C9577D' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 15px center;padding-right:40px;cursor:pointer}
+  .hint{font-size:12px;color:var(--ink-soft);margin-top:6px;font-weight:300}
+
+  /* ---------- FILE UPLOAD ---------- */
+  .drop{
+    border:2px dashed var(--sakura-300);border-radius:16px;background:var(--sakura-50);
+    padding:30px 20px;text-align:center;cursor:pointer;transition:.18s;position:relative;
+  }
+  .drop:hover{background:var(--sakura-100);border-color:var(--sakura-400)}
+  .drop.drag{background:var(--sakura-100);border-color:var(--rose-600)}
+  .drop .big{font-size:32px;margin-bottom:6px}
+  .drop .logo{font-weight:900;letter-spacing:.34em;font-size:23px;color:var(--rose-600);
+    padding-left:.34em;margin-bottom:9px;line-height:1}
+  .drop b{color:var(--rose-600);font-weight:700}
+  .drop small{display:block;color:var(--ink-soft);font-size:12px;margin-top:6px;font-weight:300}
+  .drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  #preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  #preview .thumb{position:relative;width:84px;height:84px;border-radius:12px;overflow:hidden;
+    box-shadow:0 6px 16px -8px rgba(176,80,116,.5);border:2px solid var(--white)}
+  #preview .thumb img{width:100%;height:100%;object-fit:cover}
+
+  /* ---------- RATING ---------- */
+  .stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:6px}
+  .stars input{display:none}
+  .stars label{font-size:30px;color:var(--sakura-200);cursor:pointer;transition:.15s;margin:0}
+  .stars label:hover,.stars label:hover ~ label,
+  .stars input:checked ~ label{color:#F5B638}
+
+  /* ---------- CONSENT ---------- */
+  .check{display:flex;gap:12px;align-items:flex-start;margin-top:16px}
+  .check input{margin-top:4px;width:19px;height:19px;accent-color:var(--rose-600);flex:0 0 auto;cursor:pointer}
+  .check label{font-size:13.5px;font-weight:400;color:var(--ink-soft);line-height:1.6;margin:0}
+  .check a{color:var(--rose-600);text-decoration:underline}
+
+  /* ---------- SUBMIT ---------- */
+  .submit-wrap{padding:8px 30px 34px}
+  button.submit{
+    width:100%;font-family:inherit;font-size:17px;font-weight:700;letter-spacing:.06em;color:var(--white);
+    background:linear-gradient(135deg,var(--sakura-500),var(--rose-600));border:none;border-radius:15px;
+    padding:17px;cursor:pointer;transition:.2s;box-shadow:0 14px 30px -12px rgba(201,87,125,.7);
+  }
+  button.submit:hover{transform:translateY(-2px);box-shadow:0 20px 38px -12px rgba(201,87,125,.8)}
+  button.submit:active{transform:translateY(0)}
+  .submit-note{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:14px;font-weight:300}
+
+  footer{text-align:center;margin-top:40px;color:var(--ink-soft);font-size:12.5px;font-weight:300}
+  footer .fb{font-weight:900;letter-spacing:.3em;color:var(--rose-600);font-size:14px;margin-bottom:8px}
+
+  /* ---------- SUCCESS ---------- */
+  #thanks{display:none;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:60px 30px;text-align:center;margin-top:30px;border:1px solid var(--sakura-100)}
+  #thanks .big{font-size:60px}
+  #thanks h2{font-family:"Noto Serif TC",serif;font-size:26px;color:var(--rose-700);margin:14px 0 10px}
+  #thanks p{color:var(--ink-soft);font-weight:300;max-width:420px;margin:0 auto}
+
+  @media(max-width:560px){
+    .grid2{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .prize{flex-direction:column;text-align:center}
+    fieldset,.card-top,.submit-wrap{padding-left:20px;padding-right:20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- decorative petals -->
+<div class="petal" style="left:6%;animation-duration:14s">🌸</div>
+<div class="petal" style="left:22%;animation-duration:18s;animation-delay:3s">🌸</div>
+<div class="petal" style="left:48%;animation-duration:16s;animation-delay:6s;font-size:14px">🌸</div>
+<div class="petal" style="left:70%;animation-duration:20s;animation-delay:1s">🌸</div>
+<div class="petal" style="left:88%;animation-duration:15s;animation-delay:8s;font-size:22px">🌸</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="brand">MYMICHI</div>
+    <div class="hero-badge">會員專屬 ｜ 每月 15 號公布</div>
+    <h1><span class="title-cam"><svg viewBox="0 0 24 24"><path d="M3 9.2A1.7 1.7 0 0 1 4.7 7.5H7l1-1.6a1 1 0 0 1 .85-.45h6.3a1 1 0 0 1 .85.45l1 1.6h2.3A1.7 1.7 0 0 1 21 9.2v8A1.7 1.7 0 0 1 19.3 18.9H4.7A1.7 1.7 0 0 1 3 17.2z"/><path class="fill" d="M12 16.4c-1.8-1.15-3-2.2-3-3.55a1.55 1.55 0 0 1 3-.62 1.55 1.55 0 0 1 3 .62c0 1.35-1.2 2.4-3 3.55z"/><circle class="fill" cx="18" cy="5.7" r="1.05"/></svg></span> MYMICHI <span class="accent">小小明星登場</span><br>分享寶貝的可愛時刻</h1>
+    <p class="lead">我們誠摯邀請您分享寶貝使用 MYMICHI 產品的可愛照片，<span class="nb">參加每月的</span><span class="nb">「小小明星登場」活動。</span></p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="prize">
+    <div class="num"><b>3</b><span>每月精選</span></div>
+    <div class="txt">
+      <h3>每月 15 號選出 3 位小小明星 🌸</h3>
+      <p>精選 3 張最可愛、最有趣、最溫馨的照片，刊登於 MYMICHI 的 Facebook、Instagram 與官方網站，成為當月小明星，並有機會獲得 <b style="color:var(--rose-700)">購物金回饋 $150</b>！</p>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 8.7A1.7 1.7 0 0 1 4.7 7H7l1.1-1.7a1 1 0 0 1 .84-.45h6.12a1 1 0 0 1 .84.45L17 7h2.3A1.7 1.7 0 0 1 21 8.7v8.6A1.7 1.7 0 0 1 19.3 19H4.7A1.7 1.7 0 0 1 3 17.3z"/><circle cx="12" cy="13" r="3.1"/></svg></div>
+      <b>拍下日常</b><span>寶貝使用 MYMICHI 的可愛瞬間</span>
+    </div>
+    <div class="step">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M4.5 19.5h4l9.3-9.3a2.3 2.3 0 0 0-3.25-3.25L5.25 16.25 4.5 19.5z"/><path d="M13.4 7.6l3.25 3.25"/></svg></div>
+      <b>填寫分享</b><span>留下心得與基本聯絡資訊</span>
+    </div>
+    <div class="step">
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="10.5" rx="1.3"/><path d="M3.2 9h17.6M12 9v10.5"/><path d="M12 9S10.6 4.7 8.2 5.4C6.4 6 6.7 8.6 9 9M12 9s1.4-4.3 3.8-3.6C17.6 6 17.3 8.6 15 9"/></svg></div>
+      <b>登上小明星</b><span>每月 15 號公布 3 位，<br>回饋購物金 $150</span>
+    </div>
+  </div>
+
+  <!-- =================== FORM =================== -->
+  <!-- ⚠️ 設定方式：到 https://formspree.io 註冊，建立表單並把收件信箱設為
+       michi.with.tlc@gmail.com，再把下方 action 的 YOUR_FORM_ID 換成 Formspree
+       給你的端點（例如 https://formspree.io/f/abcdwxyz）。送出結果就會寄到該信箱。 -->
+  <form class="card" id="surveyForm"
+        action="https://formspree.io/f/xkolwblq"
+        method="POST" enctype="multipart/form-data">
+
+    <div class="card-top">
+      <h2>小小明星登場 ｜ 報名表單</h2>
+      <p>標示 <span style="color:var(--rose-600)">*</span> 為必填欄位。我們會妥善保護您的個人資料，僅用於本活動聯繫與寄送。</p>
+    </div>
+
+    <!-- 聯絡資訊 -->
+    <fieldset>
+      <legend>聯絡資訊</legend>
+      <div class="grid2">
+        <div class="field">
+          <label>姓名 <span class="req">*</span></label>
+          <input type="text" name="姓名" placeholder="請輸入您的姓名" required>
+        </div>
+        <div class="field">
+          <label>聯絡電話 <span class="req">*</span></label>
+          <input type="tel" name="聯絡電話" placeholder="例：0912-345-678" required>
+        </div>
+        <div class="field">
+          <label>電子郵件 <span class="req">*</span></label>
+          <input type="email" name="電子郵件" placeholder="example@mail.com" required>
+        </div>
+        <div class="field">
+          <label>得獎通知方式 <span class="req">*</span></label>
+          <select name="得獎通知方式" required>
+            <option value="">請選擇</option>
+            <option>電子郵件</option>
+            <option>簡訊</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>寄送地址 <span class="req">*</span></label>
+          <input type="text" name="寄送地址" placeholder="得獎好禮寄送用，請填寫完整地址（含郵遞區號）" required>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 寶貝與產品 -->
+    <fieldset>
+      <legend>寶貝與產品</legend>
+      <div class="grid2">
+        <div class="field">
+          <label>寶貝暱稱 <span class="req">*</span></label>
+          <input type="text" name="寶貝暱稱" placeholder="例：小櫻、豆豆" required>
+        </div>
+        <div class="field">
+          <label>寶貝年齡 <span class="req">*</span></label>
+          <input type="text" name="寶貝年齡" placeholder="例：1 歲 3 個月" required>
+        </div>
+        <div class="field">
+          <label>使用的 MYMICHI 產品 <span class="req">*</span></label>
+          <select name="使用產品" required>
+            <option value="">請選擇主要分享的產品</option>
+            <option>iCATCH 安心防掉手環</option>
+            <option>iWING 矽膠湯匙固齒器</option>
+            <option>iMAT Set 矽膠兒童餐墊組</option>
+            <option>iBOWL 寶寶防漏吸盤碗</option>
+            <option>iFEED 316 不鏽鋼兒童餐具組</option>
+            <option>其他 MYMICHI 產品</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>購買通路 <span class="opt">（選填）</span></label>
+          <select name="購買通路">
+            <option value="">請選擇</option>
+            <option>MYMICHI 官方網站</option>
+            <option>Amazon 亞馬遜</option>
+            <option>實體門市 / 通路</option>
+            <option>朋友贈送</option>
+            <option>其他</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 上傳照片 -->
+    <fieldset>
+      <legend>上傳照片</legend>
+      <div class="field" style="margin-top:14px">
+        <label>分享你的可愛照片 <span class="req">*</span></label>
+        <div class="drop" id="drop">
+          <div class="logo">MYMICHI</div>
+          <div>點擊或拖曳上傳，<b>選擇你的照片</b></div>
+          <small>最多 5 張，支援 JPG / PNG，單張建議 10MB 以內</small>
+          <input type="file" id="photos" name="照片" accept="image/*" multiple required>
+        </div>
+        <div id="preview"></div>
+      </div>
+      <div class="field full">
+        <label>照片小故事 <span class="opt">（選填）</span></label>
+        <input type="text" name="照片小故事" placeholder="一句話形容這張照片的故事，例：第一次自己吃飯不掉滿地！">
+      </div>
+    </fieldset>
+
+    <!-- 使用心得 -->
+    <fieldset>
+      <legend>使用心得</legend>
+      <div class="field" style="margin-top:14px">
+        <label>整體推薦指數 <span class="opt">（選填）</span></label>
+        <div class="stars">
+          <input type="radio" id="s5" name="推薦指數" value="5"><label for="s5">★</label>
+          <input type="radio" id="s4" name="推薦指數" value="4"><label for="s4">★</label>
+          <input type="radio" id="s3" name="推薦指數" value="3"><label for="s3">★</label>
+          <input type="radio" id="s2" name="推薦指數" value="2"><label for="s2">★</label>
+          <input type="radio" id="s1" name="推薦指數" value="1"><label for="s1">★</label>
+        </div>
+      </div>
+      <div class="field full">
+        <label>使用心得與回饋 <span class="req">*</span></label>
+        <textarea name="使用心得" placeholder="與我們分享你的使用感受～ 例如：最喜歡的功能、帶給生活的改變、給其他爸媽的推薦，或任何想對 MYMICHI 說的話。" required></textarea>
+        <div class="hint">你的真實回饋是 MYMICHI 持續變得更好的動力 💗</div>
+      </div>
+    </fieldset>
+
+    <!-- 同意 -->
+    <fieldset>
+      <legend>活動同意</legend>
+      <div class="check">
+        <input type="checkbox" id="c1" name="授權同意" value="同意" required>
+        <label for="c1">參加活動即表示我同意 MYMICHI 於取得同意後，將我上傳的照片使用於品牌社群平台（Facebook、Instagram）、官方網站及相關宣傳用途。<span class="req" style="color:var(--rose-600)">*</span></label>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="c2" name="活動辦法同意" value="同意" required>
+        <label for="c2">我已閱讀並同意活動辦法與 <a href="https://mymichiworld.com/pages/%E9%9A%B1%E7%A7%81%E6%AC%8A%E6%94%BF%E7%AD%96-1" target="_blank" rel="noopener">隱私權政策</a>。<span class="req" style="color:var(--rose-600)">*</span></label>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="c3" name="訂閱電子報" value="願意">
+        <label for="c3">我願意收到 MYMICHI 的新品資訊與專屬優惠（選填）。</label>
+      </div>
+    </fieldset>
+
+    <div class="submit-wrap">
+      <button type="submit" class="submit">送出寶貝的可愛照片 🌸</button>
+      <p class="submit-note">送出後將收到確認，得獎名單於每月 15 號公布並個別通知。</p>
+    </div>
+  </form>
+
+  <!-- success state -->
+  <div id="thanks">
+    <div class="big">🌸</div>
+    <h2>分享成功，謝謝你！</h2>
+    <p>我們已收到寶貝的可愛照片。每月 15 號將公布並通知 3 位小小明星，敬請留意你的信箱與電話。讓 MYMICHI 一起守護每個孩子的健康 🩵</p>
+  </div>
+
+  <footer>
+    <div class="fb">MYMICHI</div>
+    保護鍋具・守護健康・理想第一品牌<br>
+    © 2026 MYMICHI CO., LTD. 永崎有限公司
+  </footer>
+
+</div>
+
+<script>
+  // ---- photo preview + 5 file limit ----
+  const input = document.getElementById('photos');
+  const drop = document.getElementById('drop');
+  const preview = document.getElementById('preview');
+
+  input.addEventListener('change', renderPreview);
+  function renderPreview(){
+    preview.innerHTML = '';
+    let files = Array.from(input.files);
+    if(files.length > 5){
+      alert('最多只能上傳 5 張照片喔，已為你保留前 5 張。');
+      const dt = new DataTransfer();
+      files.slice(0,5).forEach(f=>dt.items.add(f));
+      input.files = dt.files;
+      files = Array.from(input.files);
+    }
+    files.forEach(file=>{
+      if(!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = e=>{
+        const t = document.createElement('div');
+        t.className = 'thumb';
+        t.innerHTML = '<img src="'+e.target.result+'" alt="">';
+        preview.appendChild(t);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  // drag styling
+  ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
+  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
+
+  // ---- AJAX submit to Formspree (keeps user on page, shows thank-you) ----
+  const form = document.getElementById('surveyForm');
+  form.addEventListener('submit', async function(e){
+    // If endpoint not configured, let it submit normally (will 404) — reminder for setup.
+    if(form.action.includes('YOUR_FORM_ID')){
+      e.preventDefault();
+      alert('⚙️ 尚未設定收件端點：請將表單 action 換成你的 Formspree 連結後即可正式收件。');
+      return;
+    }
+    e.preventDefault();
+    const btn = form.querySelector('button.submit');
+    btn.disabled = true; btn.textContent = '傳送中… 🌸';
+    try{
+      const res = await fetch(form.action, {method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}});
+      if(res.ok){
+        form.style.display='none';
+        document.getElementById('thanks').style.display='block';
+        document.getElementById('thanks').scrollIntoView({behavior:'smooth'});
+      }else{
+        throw new Error('submit failed');
+      }
+    }catch(err){
+      alert('送出時發生問題，請稍後再試一次，或來信與我們聯繫。');
+      btn.disabled=false; btn.textContent='送出我的櫻花分享 🌸';
+    }
+  });
+</script>
+</body>
+</html>
