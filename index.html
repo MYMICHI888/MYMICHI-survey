@@ -334,14 +334,16 @@
         </div>
         <div class="field">
           <label>購買通路 <span class="opt">（選填）</span></label>
-          <select name="購買通路">
+          <select name="購買通路" id="channel">
             <option value="">請選擇</option>
             <option>MYMICHI 官方網站</option>
-            <option>Amazon 亞馬遜</option>
-            <option>實體門市 / 通路</option>
+            <option>蝦皮 Shopee</option>
+            <option>PChome</option>
+            <option>PINKOI</option>
             <option>朋友贈送</option>
             <option>其他</option>
           </select>
+          <input type="text" id="channelOther" name="購買通路_其他" placeholder="請填寫購買通路（選填）" style="display:none;margin-top:10px">
         </div>
       </div>
     </fieldset>
@@ -453,6 +455,14 @@
       reader.readAsDataURL(file);
     });
   }
+  // 購買通路選「其他」時顯示填寫欄
+  const channel = document.getElementById('channel');
+  const channelOther = document.getElementById('channelOther');
+  channel.addEventListener('change', ()=>{
+    channelOther.style.display = channel.value === '其他' ? 'block' : 'none';
+    if(channel.value !== '其他') channelOther.value = '';
+  });
+
   // drag styling
   ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')}));
   ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
