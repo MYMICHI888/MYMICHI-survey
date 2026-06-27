@@ -186,6 +186,10 @@
   #preview .thumb{position:relative;width:84px;height:84px;border-radius:12px;overflow:hidden;
     box-shadow:0 6px 16px -8px rgba(176,80,116,.5);border:2px solid var(--white)}
   #preview .thumb img{width:100%;height:100%;object-fit:cover}
+  #preview .thumb .rm{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;
+    background:rgba(168,70,106,.92);color:#fff;border:none;font-size:14px;line-height:1;font-family:inherit;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:.15s}
+  #preview .thumb .rm:hover{background:var(--rose-700);transform:scale(1.1)}
 
   /* ---------- RATING ---------- */
   .stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:6px}
@@ -218,6 +222,7 @@
   #thanks{display:none;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);
     padding:60px 30px;text-align:center;margin-top:30px;border:1px solid var(--sakura-100)}
   #thanks .big{font-size:60px}
+  #thanks .thanks-logo{width:170px;height:auto;display:inline-block;margin-bottom:4px}
   #thanks h2{font-family:"Noto Serif TC",serif;font-size:26px;color:var(--rose-700);margin:14px 0 10px}
   #thanks p{color:var(--ink-soft);font-weight:300;max-width:420px;margin:0 auto}
 
@@ -272,11 +277,15 @@
   </div>
 
   <!-- =================== FORM =================== -->
-  <!-- ✅ 已設定 Formspree 端點，送出結果會寄到 michi.with.tlc@gmail.com。
+  <!-- ✅ 已設定 Formspree 端點，送出結果會寄到 contactus@mymichiworld.com（於 Formspree 後台設定）。
        照片直接上傳需 Formspree 付費方案（Personal 以上）才會收到附件。 -->
   <form class="card" id="surveyForm"
         action="https://formspree.io/f/xkolwblq"
         method="POST" enctype="multipart/form-data">
+
+    <!-- Formspree：信件主旨與回覆地址（_replyto 於送出時帶入投稿者 email） -->
+    <input type="hidden" name="_subject" value="🌸 MYMICHI 小小明星登場 — 新的照片投稿">
+    <input type="hidden" name="_replyto" id="_replyto">
 
     <div class="card-top">
       <h2>小小明星登場 ｜ 報名表單</h2>
@@ -419,9 +428,9 @@
 
   <!-- success state -->
   <div id="thanks">
-    <div class="big">🌸</div>
+    <div class="big"><img src="mymichi-logo-trim.png" alt="MYMICHI" class="thanks-logo"></div>
     <h2>分享成功，謝謝你！</h2>
-    <p>我們已收到寶貝的可愛照片。每月 15 號將公布並通知 3 位小小明星，敬請留意你的信箱與電話。讓 MYMICHI 一起守護每個孩子的健康 🩵</p>
+    <p>我們已收到寶貝的可愛照片。每月 15 號將公布並通知 3 位小小明星，敬請留意你的信箱與電話。讓 MYMICHI 與您一起守護每個孩子的健康 <span style="color:var(--rose-600)">♥</span></p>
   </div>
 
   <footer>
@@ -433,34 +442,51 @@
 </div>
 
 <script>
-  // ---- photo preview + 5 file limit ----
+  // ---- photo preview + 5 file limit + 單張刪除 ----
   const input = document.getElementById('photos');
   const drop = document.getElementById('drop');
   const preview = document.getElementById('preview');
+  let selected = [];
 
-  input.addEventListener('change', renderPreview);
+  function syncInput(){
+    const dt = new DataTransfer();
+    selected.forEach(f=>dt.items.add(f));
+    input.files = dt.files;
+  }
+  function addFiles(list){
+    const imgs = Array.from(list).filter(f=>f.type.startsWith('image/'));
+    let full = false;
+    for(const f of imgs){
+      if(selected.length >= 5){ full = true; break; }
+      selected.push(f);
+    }
+    if(full) alert('最多只能上傳 5 張照片喔。');
+    syncInput();
+    renderPreview();
+  }
+  function removeAt(i){
+    selected.splice(i, 1);
+    syncInput();
+    renderPreview();
+  }
   function renderPreview(){
     preview.innerHTML = '';
-    let files = Array.from(input.files);
-    if(files.length > 5){
-      alert('最多只能上傳 5 張照片喔，已為你保留前 5 張。');
-      const dt = new DataTransfer();
-      files.slice(0,5).forEach(f=>dt.items.add(f));
-      input.files = dt.files;
-      files = Array.from(input.files);
-    }
-    files.forEach(file=>{
-      if(!file.type.startsWith('image/')) return;
+    selected.forEach((file, i)=>{
+      const t = document.createElement('div');
+      t.className = 'thumb';
+      const img = document.createElement('img'); img.alt = '';
+      const x = document.createElement('button');
+      x.type = 'button'; x.className = 'rm'; x.textContent = '×';
+      x.setAttribute('aria-label', '刪除這張照片');
+      x.addEventListener('click', ()=>removeAt(i));
+      t.appendChild(img); t.appendChild(x);
+      preview.appendChild(t);
       const reader = new FileReader();
-      reader.onload = e=>{
-        const t = document.createElement('div');
-        t.className = 'thumb';
-        t.innerHTML = '<img src="'+e.target.result+'" alt="">';
-        preview.appendChild(t);
-      };
+      reader.onload = e=>{ img.src = e.target.result; };
       reader.readAsDataURL(file);
     });
   }
+  input.addEventListener('change', ()=>addFiles(input.files));
   // 購買通路選「其他」時顯示填寫欄
   const channel = document.getElementById('channel');
   const channelOther = document.getElementById('channelOther');
@@ -474,24 +500,18 @@
   drop.addEventListener('dragleave',e=>{e.preventDefault();e.stopPropagation();drop.classList.remove('drag')});
   drop.addEventListener('drop',e=>{
     e.preventDefault();e.stopPropagation();drop.classList.remove('drag');
-    const dropped = Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
-    if(!dropped.length){ alert('請拖曳圖片檔（JPG / PNG）。'); return; }
-    const dt = new DataTransfer();
-    dropped.slice(0,5).forEach(f=>dt.items.add(f));
-    input.files = dt.files;
-    renderPreview();
+    if(!Array.from(e.dataTransfer.files).some(f=>f.type.startsWith('image/'))){ alert('請拖曳圖片檔（JPG / PNG）。'); return; }
+    addFiles(e.dataTransfer.files);
   });
 
   // ---- AJAX submit to Formspree (keeps user on page, shows thank-you) ----
   const form = document.getElementById('surveyForm');
   form.addEventListener('submit', async function(e){
-    // If endpoint not configured, let it submit normally (will 404) — reminder for setup.
-    if(form.action.includes('YOUR_FORM_ID')){
-      e.preventDefault();
-      alert('⚙️ 尚未設定收件端點：請將表單 action 換成你的 Formspree 連結後即可正式收件。');
-      return;
-    }
     e.preventDefault();
+    // 帶入投稿者 email 作為回覆地址
+    const rt = document.getElementById('_replyto');
+    const em = form.querySelector('[name="電子郵件"]');
+    if(rt && em) rt.value = em.value;
     const btn = form.querySelector('button.submit');
     btn.disabled = true; btn.textContent = '傳送中… 🌸';
     try{
