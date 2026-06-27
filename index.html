@@ -429,8 +429,8 @@
   <!-- success state -->
   <div id="thanks">
     <div class="big"><img src="mymichi-logo-trim.png" alt="MYMICHI" class="thanks-logo"></div>
-    <h2>分享成功，謝謝你，我們已收到寶貝的可愛照片！</h2>
-    <p>每月 15 號將公布並通知 3 位小小明星，敬請留意～讓 MYMICHI 與您一起守護每個孩子的健康 <span style="color:var(--rose-600)">♥</span></p>
+    <h2>謝謝您，我們已收到寶貝的可愛照片！</h2>
+    <p>每月 15 號將公布並通知 3 位小小明星，敬請留意～<br>讓 MYMICHI 與您一起守護每個孩子的健康 <span style="color:var(--rose-600)">♥</span></p>
   </div>
 
   <footer>
@@ -541,6 +541,7 @@
       const res = await fetch(form.action, {method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}});
       if(res.ok){
         form.style.display='none';
+        const steps = document.querySelector('.steps'); if(steps) steps.style.display='none';
         document.getElementById('thanks').style.display='block';
         document.getElementById('thanks').scrollIntoView({behavior:'smooth'});
       }else{
