@@ -279,7 +279,7 @@
   <!-- =================== FORM =================== -->
   <!-- ✅ 已設定 Formspree 端點，送出結果會寄到 contactus@mymichiworld.com（於 Formspree 後台設定）。
        照片直接上傳需 Formspree 付費方案（Personal 以上）才會收到附件。 -->
-  <form class="card" id="surveyForm"
+  <form class="card" id="surveyForm" novalidate
         action="https://formspree.io/f/xkolwblq"
         method="POST" enctype="multipart/form-data">
 
@@ -429,8 +429,8 @@
   <!-- success state -->
   <div id="thanks">
     <div class="big"><img src="mymichi-logo-trim.png" alt="MYMICHI" class="thanks-logo"></div>
-    <h2>分享成功，謝謝你！</h2>
-    <p>我們已收到寶貝的可愛照片。每月 15 號將公布並通知 3 位小小明星，敬請留意你的信箱與電話。讓 MYMICHI 與您一起守護每個孩子的健康 <span style="color:var(--rose-600)">♥</span></p>
+    <h2>分享成功，謝謝你，我們已收到寶貝的可愛照片！</h2>
+    <p>每月 15 號將公布並通知 3 位小小明星，敬請留意～讓 MYMICHI 與您一起守護每個孩子的健康 <span style="color:var(--rose-600)">♥</span></p>
   </div>
 
   <footer>
@@ -506,8 +506,31 @@
 
   // ---- AJAX submit to Formspree (keeps user on page, shows thank-you) ----
   const form = document.getElementById('surveyForm');
+  // 檢查必填欄位，回傳未完成的清單
+  function getMissing(){
+    const missing = [];
+    if(selected.length === 0) missing.push('分享你的可愛照片');
+    const simple = [
+      ['寶貝暱稱','寶貝暱稱'],['寶貝年齡','寶貝年齡'],['使用產品','使用的 MYMICHI 產品'],
+      ['使用心得','使用心得與回饋'],['姓名','姓名'],['聯絡電話','聯絡電話'],
+      ['電子郵件','電子郵件'],['得獎通知方式','得獎通知方式'],['寄送地址','寄送地址']
+    ];
+    simple.forEach(([n,l])=>{ const el=form.querySelector('[name="'+n+'"]'); if(el && !el.value.trim()) missing.push(l); });
+    const em = form.querySelector('[name="電子郵件"]');
+    if(em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) missing.push('電子郵件（格式不正確）');
+    if(!form.querySelector('[name="推薦指數"]:checked')) missing.push('整體推薦指數');
+    if(!document.getElementById('c1').checked) missing.push('照片與內容授權（請勾選）');
+    if(!document.getElementById('c2').checked) missing.push('活動辦法與隱私權政策（請勾選）');
+    return missing;
+  }
+
   form.addEventListener('submit', async function(e){
     e.preventDefault();
+    const missing = getMissing();
+    if(missing.length){
+      alert('還有以下必填項目尚未完成喔：\n\n• ' + missing.join('\n• ') + '\n\n填寫完成後再送出 🌸');
+      return;
+    }
     // 帶入投稿者 email 作為回覆地址
     const rt = document.getElementById('_replyto');
     const em = form.querySelector('[name="電子郵件"]');
